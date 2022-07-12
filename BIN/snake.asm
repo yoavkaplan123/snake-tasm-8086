@@ -214,24 +214,10 @@ proc AdvanceSnake
         sub bx, 2
         jmp AdvanceLoop
     end_of_AdvanceLoop:
-    mov al, [snake + 2]
-    push ax
-    mov al, [snake + 3]
-    push ax
-    push [green]
-    push [size_of_squaer]
-    call printSquare
     mov al, [direction]
     add [snake], al
     mov al, [direction + 1]
     add [snake + 1], al
-    mov al, [snake]
-    push ax
-    mov al, [snake + 1]
-    push ax
-    push [blue]
-    push [size_of_squaer]
-    call printSquare
     end_of_proc_AdvanceSnake:
     pop cx
     pop bx
@@ -482,6 +468,7 @@ start:
         call generateAppleForASizeOfSquaer10
         end_of_game_loop:
         call AdvanceSnake
+        call drowSnake
     jmp gameLoop 
 
     game_over:
