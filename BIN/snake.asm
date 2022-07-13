@@ -4,14 +4,14 @@ STACK 100h
 DATASEG
 max_x_value dw 320
 max_y_value dw 200
-game_over_message db "game over", 10, 13, '$'
+game_over_message db "Game Over", 10, 13, '$'
 red dw 4
 blue dw 1
 green dw 2
 white dw 15
 black dw 0
 gameOver db 0
-size_of_squaer dw 10
+size_of_squaer dw 10    
 snake db 1072 dup (0)
 direction db 1 dup (0,0)
 change_direction db 0
@@ -84,7 +84,7 @@ proc printSquare
     ret 8
 endp printSquare
 
-proc drowBorders
+proc drawBorders
     push bp
     mov bp, sp
     push ax
@@ -98,7 +98,7 @@ proc drowBorders
     mov ax, [max_y_value]
     div [size_of_squaer]
     mov bx, 1
-    drow_x:
+    draw_x:
         push bx
         push 1
         push [bp + 4]
@@ -110,7 +110,7 @@ proc drowBorders
         push [size_of_squaer]
         call printSquare
         inc bx
-    loop drow_x
+    loop draw_x
     mov ax, [max_y_value]
     div [size_of_squaer]
     xor cx, cx
@@ -119,7 +119,7 @@ proc drowBorders
     mov ax, [max_x_value]
     div [size_of_squaer]
     mov bx, 1
-    drow_y:
+    draw_y:
         push 1
         push bx
         push [bp + 4]
@@ -131,15 +131,15 @@ proc drowBorders
         push [size_of_squaer]
         call printSquare
         inc bx
-    loop drow_y
+    loop draw_y
     pop cx
     pop bx
     pop ax
     pop bp
     ret 2
-endp drowBorders
+endp drawBorders
 
-proc drowSnake
+proc drawSnake
     push ax
     push bx
     xor ax, ax
@@ -156,7 +156,7 @@ proc drowSnake
     push [size_of_squaer]
     call printSquare
     inc bx
-    drow_loop:
+    draw_loop:
         cmp [bx], 0
         je end_of_loop
         mov al, [bx]
@@ -168,12 +168,12 @@ proc drowSnake
         push [size_of_squaer]
         call printSquare
         inc bx
-        jmp drow_loop
+        jmp draw_loop
     end_of_loop:
     pop bx
     pop ax
     ret
-endp drowSnake
+endp drawSnake
 
 proc AdvanceSnake
     push ax
@@ -365,10 +365,10 @@ start:
     mov [snake + 7], 10
     mov [snake + 8], 20
     mov [snake + 9], 10
-    call drowSnake
+    call drawSnake
 
     push [white]
-    call drowBorders   
+    call drawBorders   
 
     mov al, [apple]
     push ax
@@ -468,7 +468,7 @@ start:
         call generateAppleForASizeOfSquaer10
         end_of_game_loop:
         call AdvanceSnake
-        call drowSnake
+        call drawSnake
     jmp gameLoop 
 
     game_over:
