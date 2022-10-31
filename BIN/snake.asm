@@ -10,7 +10,6 @@ blue dw 1
 green dw 2
 white dw 15
 black dw 0
-gameOver db 0
 size_of_squaer dw 10    
 snake db 1072 dup (0)
 direction db 1 dup (0,0)
@@ -370,13 +369,16 @@ start:
     push [white]
     call drawBorders   
 
+    xor ax, ax
     mov al, [apple]
     push ax
+    xor ax, ax
     mov al, [apple + 1]
     push ax
     push [red]
-    push [size_of_squaer]
-    call printSquare    
+    push 10
+    call printSquare
+
 
     mov ax, 40h
     mov es, ax
